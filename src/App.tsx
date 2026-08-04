@@ -60,7 +60,7 @@ async function fetchDownloadLink(videoId: string, kbps: number): Promise<string>
   const res = await fetch("https://api.cobalt.tools/", {
     method: "POST",
     headers: {
-      Accept: "application/json",
+      "Accept": "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -71,7 +71,7 @@ async function fetchDownloadLink(videoId: string, kbps: number): Promise<string>
   }
 
   const data = await res.json();
-  console.log("Cobalt response:, data);
+  console.log("Cobalt response:", data);
 
   // cobalt returns { status: "tunnel"|"redirect"|"picker"|"error", url, ... }
   if (data.status !== "success" || !data.url) {
