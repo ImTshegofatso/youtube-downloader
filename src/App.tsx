@@ -53,7 +53,6 @@ async function fetchDownloadLink(videoId: string, kbps: number): Promise<string>
 
   const payload = {
     url: videoUrl,
-    downloadMode: "audio",
     audioFormat: "mp3",
     audioBitrate: kbps,
   };
@@ -72,6 +71,7 @@ async function fetchDownloadLink(videoId: string, kbps: number): Promise<string>
   }
 
   const data = await res.json();
+  console.log("Cobalt response:, data);
 
   // cobalt returns { status: "tunnel"|"redirect"|"picker"|"error", url, ... }
   if (data.status !== "success" || !data.url) {
@@ -109,7 +109,8 @@ async function downloadAsBlob(
     received += value.length;
     if (total > 0) onProgress(Math.round((received / total) * 100));
   }
-
+onProgress(100);
+  
   const blob = new Blob(chunks, { type: "audio/mpeg" });
   const objectUrl = URL.createObjectURL(blob);
 
