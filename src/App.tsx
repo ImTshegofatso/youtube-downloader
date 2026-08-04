@@ -55,7 +55,7 @@ async function fetchDownloadLink(videoId: string, kbps: number): Promise<string>
     url: videoUrl,
     downloadMode: "audio",
     audioFormat: "mp3",
-    audioBitrate: String(kbps),
+    audioBitrate: kbps,
   };
 
   const res = await fetch("https://api.cobalt.tools/", {
@@ -74,11 +74,11 @@ async function fetchDownloadLink(videoId: string, kbps: number): Promise<string>
   const data = await res.json();
 
   // cobalt returns { status: "tunnel"|"redirect"|"picker"|"error", url, ... }
-  if (data.status === "error" || !data.url) {
+  if (data.status !== "success" || !data.url) {
     throw new Error(data.error?.code || "Could not generate download link.");
   }
 
-  return data.url as string;
+  return data.url;
 }
 
 // Fetch the remote file as a blob and force-save it to disk.
